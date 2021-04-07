@@ -42,7 +42,7 @@ export default {
     .count{
       position: absolute;
       top: -15px;
-      right: 11px;
+      right: 10px;
       color: #ec8f86;
       font-weight: bold;
       font-size: 16px;

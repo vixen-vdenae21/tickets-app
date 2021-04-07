@@ -7,8 +7,8 @@
       >
       <router-link class="item" :to="'/ticket/' + ticket.id">
 
-        <div class="number">{{ `#${idx + 1}` }}</div> 
-        <div class="space"><img class="photo" v-bind:src='ticket.avatar' alt=""></div> 
+        <div class="number">{{ `#${idx + 1}` }}</div>
+        <div class="space"><img class="photo" v-bind:src='ticket.avatar' alt=""></div>
         <div class="name space">{{ ticket.name || 'Нет имени' }}</div>
         <div class="subject_call space">
           <div class="subject">
@@ -17,7 +17,7 @@
           </div>
           <div class="subject_body">{{ ticket.body_subject || "нет обращения" }}</div>
         </div>
-        <div class="circle space" v-bind:class="{'new_status': ticket.status === 'Новый', 
+        <div class="circle space" v-bind:class="{'new_status': ticket.status === 'Новый',
           'processing_status': ticket.status === 'В обработке',
            'postponed_status': ticket.status === 'Отложено',
            'closed_status': ticket.status === 'Закрыто'}"></div>
@@ -26,18 +26,31 @@
         <div class="date space">{{ new Date(ticket.date).toLocaleString('de-DE').slice(0,15) }}</div>
         </router-link>
       </div>
+      <Paginate
+          :page-count="pageCount"
+          :click-handler="pageChangeHandler"
+          :prev-text="'Назад'"
+          :next-text="'Вперед'"
+          :container-class="'pagination'"
+          :page-class="'wives-effect'">
+      </Paginate>
     </div>
+
     <p class="empty" v-else>Пока обрашений нет</p>
   </div>
 </template>
 
 <script>
+import paginationMixin from '@/mixins/pagination.mixin.js'
 export default {
   name: 'list',
-  computed: {
-    tickets() {
-      return this.$store.getters.tickets
-    }
+  mixins: [paginationMixin],
+
+  async mounted(){
+    const tickets = await this.$store.getters.tickets;
+    this.setupPagination(tickets.map(ticket => {
+      return ticket
+    }))
   },
 }
 </script>

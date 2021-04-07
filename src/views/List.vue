@@ -36,7 +36,7 @@
       </Paginate>
     </div>
 
-    <p class="empty" v-else>Пока обрашений нет</p>
+    <p class="empty" v-else>Пока обращений нет</p>
   </div>
 </template>
 
